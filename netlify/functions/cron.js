@@ -1,3 +1,4 @@
+import { schedule } from "@netlify/functions";
 import { v2 as cloudinary } from 'cloudinary';
 import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, query, where, getDocs, deleteDoc, doc } from 'firebase/firestore';
@@ -24,14 +25,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-export default async function handler(req, res) {
-  // Vercel securely triggers cron jobs with an authorization header
-  // Ensure we are in a cron job or authenticated request
-  const authHeader = req.headers.authorization;
-  if (process.env.CRON_SECRET && authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
-    return res.status(401).json({ error: 'Unauthorized' });
-  }
-
+export const handler = schedule("0 * * * *", async (event) => {
   try {
     const FORTY_EIGHT_HOURS_MS = 48 * 60 * 60 * 1000;
     const expirationThreshold = Date.now() - FORTY_EIGHT_HOURS_MS;
@@ -66,10 +60,11 @@ export default async function handler(req, res) {
 
     await Promise.all(deletePromises);
 
-    return res.status(200).json({ success: true, message: `Successfully deleted ${deletedCount} expired posters.` });
+    console.log(`Successfully deleted ${deletedCount} expired posters.`);
+    return { statusCode: 200 };
     
   } catch (error) {
     console.error('Cron job error:', error);
-    return res.status(500).json({ error: 'Internal Server Error' });
+    return { statusCode: 500 };
   }
-}
+});

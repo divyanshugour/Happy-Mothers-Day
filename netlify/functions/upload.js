@@ -1,35 +1,25 @@
 import { v2 as cloudinary } from 'cloudinary';
 
-export const config = {
-  api: {
-    bodyParser: false, // Disallow body parsing to consume as stream
-  },
-};
-
 // Configure Cloudinary
-// Vercel will automatically load process.env variables
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-export default async function handler(req, res) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method Not Allowed' });
+export const handler = async (event, context) => {
+  if (event.httpMethod !== 'POST') {
+    return { statusCode: 405, body: JSON.stringify({ error: 'Method Not Allowed' }) };
   }
 
   try {
     if (!process.env.CLOUDINARY_CLOUD_NAME || !process.env.CLOUDINARY_API_KEY || !process.env.CLOUDINARY_API_SECRET) {
-      return res.status(500).json({ error: 'Server configuration error: Missing Cloudinary credentials.' });
+      return { statusCode: 500, body: JSON.stringify({ error: 'Server configuration error: Missing Cloudinary credentials.' }) };
     }
 
-    // Read the body as buffer since bodyParser is false
-    const chunks = [];
-    for await (const chunk of req) {
-      chunks.push(chunk);
-    }
-    const bodyBuffer = Buffer.concat(chunks);
+    // Netlify provides binary data as a base64 encoded string if correctly configured,
+    // or we parse it conditionally.
+    const buffer = Buffer.from(event.body, event.isBase64Encoded ? 'base64' : 'utf8');
 
     // Upload to Cloudinary using upload_stream
     const uploadResult = await new Promise((resolve, reject) => {
@@ -41,18 +31,24 @@ export default async function handler(req, res) {
         }
       );
       // Write the buffer to the stream and end it
-      uploadStream.end(bodyBuffer);
+      uploadStream.end(buffer);
     });
 
     // Cloudinary automatically provides an optimized secure URL
-    return res.status(200).json({ 
-      success: true, 
-      url: uploadResult.secure_url,
-      public_id: uploadResult.public_id 
-    });
+    return {
+      statusCode: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ 
+        success: true, 
+        url: uploadResult.secure_url,
+        public_id: uploadResult.public_id 
+      })
+    };
     
   } catch (error) {
     console.error('Server error:', error);
-    return res.status(500).json({ error: 'Internal Server Error' });
+    return { statusCode: 500, body: JSON.stringify({ error: 'Internal Server Error' }) };
   }
-}
+};
