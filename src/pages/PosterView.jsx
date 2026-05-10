@@ -76,13 +76,40 @@ export default function PosterView() {
     <div className="container animate-fade-in" style={{ padding: '2rem 1rem', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       
       {/* Top Bar Navigation & Share */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
-        <Link to="/" className="btn btn-secondary" style={{ padding: '0.5rem 1rem', fontSize: '0.9rem' }}>
-          <Home size={16} /> Home
-        </Link>
-        <button onClick={handleShare} className="btn btn-primary" style={{ padding: '0.5rem 1rem', fontSize: '0.9rem' }}>
-          {copied ? <><Copy size={16} /> Copied!</> : <><Share2 size={16} /> Share Poster</>}
-        </button>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '2rem' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Link to="/" className="btn btn-secondary" style={{ padding: '0.5rem 1rem', fontSize: '0.9rem' }}>
+            <Home size={16} /> Home
+          </Link>
+          <button onClick={handleShare} className="btn btn-primary" style={{ padding: '0.5rem 1rem', fontSize: '0.9rem' }}>
+            {copied ? <><Copy size={16} /> Copied!</> : <><Share2 size={16} /> Share Poster</>}
+          </button>
+        </div>
+        
+        {/* Explicit Copy Link Box */}
+        <div className="glass-panel flex-center" style={{ padding: '1rem', gap: '0.5rem', flexWrap: 'wrap' }}>
+          <span style={{ fontWeight: '500', color: 'var(--color-primary-dark)' }}>Shareable Link:</span>
+          <div style={{ display: 'flex', flex: 1, minWidth: '250px', background: 'rgba(255,255,255,0.7)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--color-primary-light)', overflow: 'hidden' }}>
+            <input 
+              type="text" 
+              readOnly 
+              value={window.location.href} 
+              style={{ flex: 1, padding: '0.5rem 1rem', border: 'none', background: 'transparent', outline: 'none', color: 'var(--color-text-muted)', fontSize: '0.9rem' }}
+            />
+            <button 
+              onClick={() => {
+                navigator.clipboard.writeText(window.location.href);
+                setCopied(true);
+                setTimeout(() => setCopied(false), 2000);
+              }}
+              style={{ background: 'var(--color-primary-light)', border: 'none', padding: '0.5rem 1rem', color: '#fff', cursor: 'pointer', fontWeight: 'bold', transition: 'background 0.2s' }}
+              onMouseOver={(e) => e.currentTarget.style.background = 'var(--color-primary)'}
+              onMouseOut={(e) => e.currentTarget.style.background = 'var(--color-primary-light)'}
+            >
+              {copied ? 'Copied' : 'Copy'}
+            </button>
+          </div>
+        </div>
       </div>
 
       {/* The Beautiful Poster Container */}
