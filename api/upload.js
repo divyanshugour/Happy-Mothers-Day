@@ -45,7 +45,11 @@ export default async function handler(req, res) {
     });
 
     // Cloudinary automatically provides an optimized secure URL
-    return res.status(200).json({ success: true, url: uploadResult.secure_url });
+    return res.status(200).json({ 
+      success: true, 
+      url: uploadResult.secure_url,
+      public_id: uploadResult.public_id 
+    });
     
   } catch (error) {
     console.error('Server error:', error);

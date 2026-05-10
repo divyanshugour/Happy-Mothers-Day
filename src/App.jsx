@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import CreatePoster from './pages/CreatePoster';
 import PosterView from './pages/PosterView';
+import Success from './pages/Success';
 
 function FloatingHearts() {
   const hearts = Array.from({ length: 15 }).map((_, i) => ({
@@ -38,6 +39,7 @@ function App() {
         <FloatingHearts />
         <Routes>
           <Route path="/" element={<CreatePoster />} />
+          <Route path="/success/:id" element={<Success />} />
           <Route path="/p/:id" element={<PosterView />} />
         </Routes>
       </div>

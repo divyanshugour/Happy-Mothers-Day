@@ -60,16 +60,16 @@ export default function CreatePoster() {
       });
 
       let photoUrl = '';
+      let publicId = '';
       if (!uploadRes.ok) {
-        // Fallback for development if /api/upload is not running
-        console.warn('Upload API failed. Using object URL for preview only.');
-        photoUrl = photoPreview; // Only works locally
+        throw new Error('Image upload to Cloudinary failed');
       } else {
         const uploadData = await uploadRes.json();
         if (uploadData.success) {
           photoUrl = uploadData.url;
+          publicId = uploadData.public_id;
         } else {
-          throw new Error('Image upload to Cloudflare failed');
+          throw new Error('Image upload failed');
         }
       }
 
@@ -79,13 +79,14 @@ export default function CreatePoster() {
         senderName: formData.senderName,
         message: formData.message,
         photoUrl: photoUrl,
-        createdAt: serverTimestamp()
+        publicId: publicId,
+        createdAt: Date.now() // Use timestamp for easier querying in cron
       };
 
       const docRef = await addDoc(collection(db, 'posters'), posterData);
 
-      // 3. Navigate to Poster View
-      navigate(`/p/${docRef.id}`);
+      // 3. Navigate to Success Page
+      navigate(`/success/${docRef.id}`);
       
     } catch (err) {
       console.error(err);
@@ -184,7 +185,11 @@ export default function CreatePoster() {
 
           {error && <div style={{ color: 'var(--color-primary-dark)', marginBottom: '1rem', textAlign: 'center', fontWeight: '500' }}>{error}</div>}
 
-          <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: '1rem' }} disabled={isSubmitting}>
+          <div style={{ textAlign: 'center', fontSize: '0.85rem', color: 'var(--color-text-muted)', marginBottom: '1rem', background: 'rgba(255, 107, 129, 0.1)', padding: '0.5rem', borderRadius: 'var(--radius-sm)' }}>
+            <strong>Note:</strong> As a free service, your photo and poster will be permanently deleted after 48 hours.
+          </div>
+
+          <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: '0.5rem' }} disabled={isSubmitting}>
             {isSubmitting ? (
               <><Loader2 className="animate-spin" size={20} /> Creating Magic...</>
             ) : (
