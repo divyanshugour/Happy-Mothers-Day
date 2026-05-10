@@ -52,7 +52,7 @@ export default function PosterCard({ poster, id }) {
         ))}
       </div>
 
-      <div style={{ position: 'relative', zIndex: 1, textAlign: 'center', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+      <div style={{ position: 'relative', zIndex: 1, textAlign: 'center', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center' }}>
         
         {/* Header */}
         <div style={{ marginTop: '1rem', marginBottom: '2rem' }}>

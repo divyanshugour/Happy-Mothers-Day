@@ -91,7 +91,7 @@ export default function Success() {
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginBottom: '3rem' }}>
           <label style={{ fontWeight: '500', color: 'var(--color-primary-dark)', textAlign: 'left' }}>Shareable Link:</label>
-          <div style={{ display: 'flex', background: 'rgba(255,255,255,0.9)', borderRadius: 'var(--radius-sm)', border: '2px solid var(--color-primary-light)', overflow: 'hidden' }}>
+          <div className="share-input-group" style={{ display: 'flex', background: 'rgba(255,255,255,0.9)', borderRadius: 'var(--radius-sm)', border: '2px solid var(--color-primary-light)', overflow: 'hidden' }}>
             <input 
               type="text" 
               readOnly 
