@@ -60,9 +60,9 @@ export default function PosterCard({ poster, id }) {
             <Sparkles size={24} className="gold-text-svg" />
             <Sparkles size={16} className="gold-text-svg" style={{ opacity: 0.7 }} />
           </div>
-          <h1 className="cursive-title gold-text" style={{ fontSize: '4rem', lineHeight: '1.2' }}>
-            Happy Mother's Day, <br/>
-            <span style={{ fontSize: '5.5rem', color: 'var(--color-primary-dark)', display: 'inline-block', marginTop: '0.5rem', WebkitTextFillColor: 'var(--color-primary-dark)' }}>{poster.motherName}</span>
+          <h1 className="gold-text" style={{ fontFamily: 'var(--font-display)', fontSize: '3rem', fontWeight: '800', lineHeight: '1.1', textTransform: 'uppercase', letterSpacing: '2px' }}>
+            Happy Mother's Day <br/>
+            <span style={{ fontSize: '5rem', color: 'var(--color-primary-dark)', display: 'inline-block', marginTop: '0.5rem', fontFamily: 'var(--font-serif)', fontStyle: 'italic', textTransform: 'none', letterSpacing: 'normal', WebkitTextFillColor: 'var(--color-primary-dark)' }}>{poster.motherName}</span>
           </h1>
         </div>
 
@@ -85,10 +85,10 @@ export default function PosterCard({ poster, id }) {
 
         {/* Message */}
         <div style={{ margin: '0 auto', maxWidth: '650px', padding: '0 2rem', flex: 1 }}>
-          <p className="serif-body" style={{ fontStyle: 'italic', fontSize: '1.6rem', color: '#4a4a4a', marginBottom: '3rem', position: 'relative', zIndex: 2 }}>
-            <span style={{ fontSize: '3rem', color: 'var(--color-primary-light)', position: 'absolute', top: '-20px', left: '-20px', opacity: 0.3, fontFamily: 'var(--font-serif)' }}>"</span>
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: '1.4rem', fontWeight: '500', color: '#333', lineHeight: '1.8', marginBottom: '3rem', position: 'relative', zIndex: 2 }}>
+            <span style={{ fontSize: '3rem', color: 'var(--color-primary-light)', position: 'absolute', top: '-25px', left: '-25px', opacity: 0.3, fontFamily: 'var(--font-serif)', fontWeight: 'bold' }}>"</span>
             {poster.message}
-            <span style={{ fontSize: '3rem', color: 'var(--color-primary-light)', position: 'absolute', bottom: '-40px', right: '-20px', opacity: 0.3, fontFamily: 'var(--font-serif)' }}>"</span>
+            <span style={{ fontSize: '3rem', color: 'var(--color-primary-light)', position: 'absolute', bottom: '-45px', right: '-25px', opacity: 0.3, fontFamily: 'var(--font-serif)', fontWeight: 'bold' }}>"</span>
           </p>
           
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1rem', marginBottom: '2rem' }}>
@@ -97,9 +97,9 @@ export default function PosterCard({ poster, id }) {
             <div style={{ height: '2px', width: '60px', background: 'linear-gradient(to left, transparent, var(--color-primary-light))' }} />
           </div>
 
-          <p style={{ fontFamily: 'var(--font-serif)', fontSize: '1.4rem', fontWeight: 'bold', color: 'var(--color-text-main)' }}>
+          <p style={{ fontFamily: 'var(--font-display)', fontSize: '1.2rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '1px' }}>
             From your loving <br/>
-            <span style={{ fontFamily: 'var(--font-cursive)', fontSize: '3rem', color: 'var(--color-primary)', display: 'inline-block', marginTop: '0.5rem' }}>
+            <span style={{ fontSize: '2.5rem', color: 'var(--color-primary)', display: 'inline-block', marginTop: '0.5rem', fontWeight: '700' }}>
               {poster.senderName}
             </span>
           </p>
