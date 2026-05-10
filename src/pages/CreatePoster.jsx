@@ -116,14 +116,14 @@ export default function CreatePoster() {
               id="motherName" 
               name="motherName" 
               className="input-field" 
-              placeholder="e.g. Maa, Mummy, Mumma, Jane" 
+              placeholder="e.g. Maa, Mummy, Mumma" 
               value={formData.motherName}
               onChange={handleInputChange}
             />
           </div>
 
           <div className="input-group">
-            <label htmlFor="photo">Upload a photo of you and your maa</label>
+            <label htmlFor="photo">Upload a photo of you and your mother</label>
             <div 
               style={{
                 border: '2px dashed var(--color-primary-light)',
