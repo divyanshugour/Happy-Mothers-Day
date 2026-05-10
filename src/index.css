@@ -223,13 +223,31 @@ textarea.input-field {
 }
 
 /* Premium Poster Styles */
+/* Animated Background */
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Hovering Poster */
+@keyframes floatGentle {
+  0% { transform: translateY(0px); box-shadow: 0 30px 60px rgba(0,0,0,0.08), 0 0 0 15px rgba(255,255,255,0.4), 0 0 0 16px #dfb15b; }
+  50% { transform: translateY(-15px); box-shadow: 0 45px 75px rgba(0,0,0,0.12), 0 0 0 15px rgba(255,255,255,0.4), 0 0 0 16px #dfb15b; }
+  100% { transform: translateY(0px); box-shadow: 0 30px 60px rgba(0,0,0,0.08), 0 0 0 15px rgba(255,255,255,0.4), 0 0 0 16px #dfb15b; }
+}
+
 .poster-container {
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+  background: linear-gradient(-45deg, #fdfbfb, #ffd1ff, #ffb6c1, #ebedee);
+  background-size: 400% 400%;
+  animation: gradientBG 15s ease infinite;
   padding: 2rem 1rem;
+  overflow: hidden;
+  position: relative;
 }
 
 .poster-card {
@@ -247,6 +265,8 @@ textarea.input-field {
   overflow: hidden;
   background-image: url('data:image/svg+xml;utf8,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><path d="M10 10 Q 50 50 90 10 T 90 90 Q 50 50 10 90 T 10 10" fill="none" stroke="%23ff6b81" stroke-width="0.5" stroke-opacity="0.1"/></svg>');
   background-size: 200px;
+  animation: floatGentle 6s ease-in-out infinite;
+  z-index: 10;
 }
 
 .poster-card::before {
@@ -260,12 +280,25 @@ textarea.input-field {
   pointer-events: none;
 }
 
+@keyframes shimmer {
+  0% { background-position: 200% center; }
+  100% { background-position: -200% center; }
+}
+
 .gold-text {
-  background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+  background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fcf6ba, #bf953f);
+  background-size: 200% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   color: transparent;
+  animation: shimmer 5s linear infinite;
+}
+
+@keyframes sway {
+  0% { transform: rotate(-2deg); }
+  50% { transform: rotate(1.5deg); }
+  100% { transform: rotate(-2deg); }
 }
 
 .polaroid-frame {
@@ -277,10 +310,18 @@ textarea.input-field {
   position: relative;
   display: inline-block;
   max-width: 100%;
+  animation: sway 8s ease-in-out infinite;
 }
 
 .polaroid-frame:hover {
+  animation-play-state: paused;
   transform: rotate(0deg) scale(1.02);
+}
+
+/* Export Mode for html2canvas */
+.export-mode * {
+  animation: none !important;
+  transform: none !important;
 }
 
 .polaroid-frame::after {
@@ -307,4 +348,21 @@ textarea.input-field {
   font-size: 1.3rem;
   line-height: 2;
   color: #4a4a4a;
+}
+
+/* Floating Hearts Background specific to Poster */
+.particle {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0;
+  animation: floatParticle linear infinite;
+  color: var(--color-primary-light);
+  z-index: 1;
+}
+
+@keyframes floatParticle {
+  0% { transform: translateY(110vh) scale(0.5) rotate(0deg); opacity: 0; }
+  10% { opacity: 0.8; }
+  90% { opacity: 0.6; }
+  100% { transform: translateY(-20vh) scale(1.5) rotate(360deg); opacity: 0; }
 }

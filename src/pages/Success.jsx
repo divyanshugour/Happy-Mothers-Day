@@ -1,16 +1,70 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Heart, Copy, Eye, Home } from 'lucide-react';
+import { Heart, Eye, Home, Download, Loader2 } from 'lucide-react';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '../firebase';
+import html2canvas from 'html2canvas';
+import PosterCard from '../components/PosterCard';
 
 export default function Success() {
   const { id } = useParams();
   const [copied, setCopied] = useState(false);
+  const [poster, setPoster] = useState(null);
+  const [downloading, setDownloading] = useState(false);
 
-  // Construct the view URL
   const posterUrl = `${window.location.origin}/p/${id}`;
+
+  useEffect(() => {
+    const fetchPoster = async () => {
+      try {
+        const docSnap = await getDoc(doc(db, 'posters', id));
+        if (docSnap.exists()) {
+          setPoster(docSnap.data());
+        }
+      } catch (err) {
+        console.error("Error fetching poster data for export:", err);
+      }
+    };
+    fetchPoster();
+  }, [id]);
+
+  const handleDownload = async () => {
+    const element = document.getElementById('poster-capture-area');
+    if (!element) return;
+    
+    setDownloading(true);
+    try {
+      const canvas = await html2canvas(element, {
+        useCORS: true,
+        scale: 2, // Higher quality export
+        backgroundColor: '#ffffff' // White background for the card
+      });
+      
+      const image = canvas.toDataURL('image/png');
+      const link = document.createElement('a');
+      link.href = image;
+      link.download = `Happy-Mothers-Day-${poster?.motherName.replace(/\s+/g, '-')}.png`;
+      link.click();
+    } catch (err) {
+      console.error('Error generating image:', err);
+      alert('Failed to download image. It might be due to a network connection issue.');
+    } finally {
+      setDownloading(false);
+    }
+  };
 
   return (
     <div className="container flex-center animate-fade-in" style={{ minHeight: '100vh', padding: '2rem 1rem' }}>
+      
+      {/* Hidden Poster Container for html2canvas Capture */}
+      {poster && (
+        <div style={{ position: 'absolute', top: '-9999px', left: '-9999px', opacity: 0, pointerEvents: 'none' }}>
+          <div id="poster-capture-area" className="export-mode" style={{ width: '900px', padding: '3rem', background: 'linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%)' }}>
+            <PosterCard poster={poster} />
+          </div>
+        </div>
+      )}
+
       <div className="glass-panel text-center" style={{ maxWidth: '600px', width: '100%', padding: '3rem 2rem' }}>
         <Heart size={64} fill="var(--color-primary)" color="var(--color-primary-dark)" style={{ marginBottom: '1rem' }} />
         <h1 className="text-gradient" style={{ marginBottom: '1rem', fontSize: '2.5rem' }}>Magic Created!</h1>
@@ -43,10 +97,21 @@ export default function Success() {
         </div>
 
         <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-          <Link to={`/p/${id}`} className="btn btn-primary" style={{ flex: 1, minWidth: '200px' }}>
-            <Eye size={18} /> View Poster Now
+          <Link to={`/p/${id}`} className="btn btn-primary" style={{ flex: 1, minWidth: '180px' }}>
+            <Eye size={18} /> View Live
           </Link>
-          <Link to="/" className="btn btn-secondary" style={{ flex: 1, minWidth: '200px' }}>
+          
+          <button 
+            onClick={handleDownload} 
+            disabled={downloading || !poster} 
+            className="btn btn-primary" 
+            style={{ flex: 1, minWidth: '180px', background: 'linear-gradient(135deg, #dfb15b, #b38728)', opacity: (!poster || downloading) ? 0.7 : 1 }}
+          >
+            {downloading ? <Loader2 className="animate-spin" size={18} /> : <Download size={18} />}
+            {downloading ? 'Exporting...' : 'Save as Image'}
+          </button>
+
+          <Link to="/" className="btn btn-secondary" style={{ flex: 1, minWidth: '180px' }}>
             <Home size={18} /> Create Another
           </Link>
         </div>
