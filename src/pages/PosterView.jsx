@@ -73,77 +73,62 @@ export default function PosterView() {
   }
 
   return (
-    <div className="container animate-fade-in" style={{ padding: '2rem 1rem', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+    <div className="poster-container animate-fade-in">
       
-      {/* The Beautiful Poster Container */}
-      <div className="glass-panel" style={{ 
-        maxWidth: '800px', 
-        margin: '2rem auto', 
-        padding: '3rem 2rem', 
-        textAlign: 'center',
-        position: 'relative',
-        overflow: 'hidden'
-      }}>
-        {/* Decorative elements */}
-        <div style={{ position: 'absolute', top: '-50px', left: '-50px', opacity: 0.1, transform: 'rotate(-15deg)' }}>
-          <Heart size={200} fill="var(--color-primary)" />
-        </div>
-        <div style={{ position: 'absolute', bottom: '-50px', right: '-50px', opacity: 0.1, transform: 'rotate(15deg)' }}>
-          <Heart size={150} fill="var(--color-secondary)" />
-        </div>
+      <div className="poster-card">
+        {/* Soft Decorative Blobs */}
+        <div style={{ position: 'absolute', top: '-10%', left: '-10%', width: '300px', height: '300px', background: 'radial-gradient(circle, rgba(255,107,129,0.15) 0%, rgba(255,255,255,0) 70%)', borderRadius: '50%', zIndex: 0 }} />
+        <div style={{ position: 'absolute', bottom: '-10%', right: '-10%', width: '350px', height: '350px', background: 'radial-gradient(circle, rgba(243,104,224,0.1) 0%, rgba(255,255,255,0) 70%)', borderRadius: '50%', zIndex: 0 }} />
 
-        <div style={{ position: 'relative', zIndex: 1 }}>
-          <h2 className="text-gradient" style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>
-            Happy Mother's Day
+        <div style={{ position: 'relative', zIndex: 1, textAlign: 'center' }}>
+          
+          <h2 className="gold-text" style={{ fontFamily: 'var(--font-serif)', fontSize: '1.2rem', textTransform: 'uppercase', letterSpacing: '4px', marginBottom: '1rem' }}>
+            A Special Tribute
           </h2>
-          <h1 style={{ fontSize: '3.5rem', marginBottom: '2rem', color: 'var(--color-primary-dark)' }}>
+          
+          <h1 className="cursive-title" style={{ color: 'var(--color-primary-dark)', marginBottom: '3rem' }}>
             {poster.motherName}
           </h1>
 
-          {/* Photo Wall / Polaroid Style */}
           {poster.photoUrl && (
-            <div style={{ 
-              background: '#fff', 
-              padding: '1rem 1rem 3rem 1rem', 
-              borderRadius: '2px', 
-              boxShadow: '0 10px 25px rgba(0,0,0,0.1)',
-              display: 'inline-block',
-              transform: 'rotate(-2deg)',
-              marginBottom: '3rem',
-              transition: 'transform 0.3s ease'
-            }}
-            onMouseOver={(e) => e.currentTarget.style.transform = 'rotate(0deg) scale(1.02)'}
-            onMouseOut={(e) => e.currentTarget.style.transform = 'rotate(-2deg)'}
-            >
-              <img 
-                src={poster.photoUrl} 
-                alt="Mother's Day Memory" 
-                style={{ 
-                  maxWidth: '100%', 
-                  maxHeight: '400px', 
-                  objectFit: 'cover',
-                  display: 'block'
-                }} 
-              />
+            <div style={{ marginBottom: '4rem' }}>
+              <div className="polaroid-frame">
+                <img 
+                  src={poster.photoUrl} 
+                  alt="Mother's Day Memory" 
+                  style={{ 
+                    width: '100%', 
+                    maxWidth: '450px',
+                    height: 'auto',
+                    maxHeight: '500px', 
+                    objectFit: 'cover',
+                    display: 'block',
+                    border: '1px solid rgba(0,0,0,0.05)'
+                  }} 
+                />
+              </div>
             </div>
           )}
 
-          {/* Message Section */}
-          <div style={{ margin: '0 auto', maxWidth: '600px' }}>
-            <p style={{ 
-              fontSize: '1.4rem', 
-              lineHeight: '1.8', 
-              fontStyle: 'italic', 
-              color: 'var(--color-text-main)',
-              marginBottom: '2rem',
-              whiteSpace: 'pre-wrap'
-            }}>
+          <div style={{ margin: '0 auto', maxWidth: '600px', padding: '0 2rem' }}>
+            <p className="serif-body" style={{ fontStyle: 'italic', marginBottom: '3rem' }}>
               "{poster.message}"
             </p>
-            <p style={{ fontSize: '1.2rem', fontWeight: '600', color: 'var(--color-primary)' }}>
-              With all my love, <br/> {poster.senderName}
+            
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1rem' }}>
+              <div style={{ height: '1px', width: '40px', background: 'var(--color-primary-light)' }} />
+              <Heart size={20} fill="var(--color-primary-light)" color="var(--color-primary-light)" />
+              <div style={{ height: '1px', width: '40px', background: 'var(--color-primary-light)' }} />
+            </div>
+
+            <p style={{ fontFamily: 'var(--font-serif)', fontSize: '1.4rem', fontWeight: 'bold', color: 'var(--color-text-main)', marginTop: '2rem' }}>
+              With Endless Love,<br/>
+              <span style={{ fontFamily: 'var(--font-cursive)', fontSize: '2.5rem', color: 'var(--color-primary)', display: 'inline-block', marginTop: '0.5rem' }}>
+                {poster.senderName}
+              </span>
             </p>
           </div>
+          
         </div>
       </div>
     </div>
