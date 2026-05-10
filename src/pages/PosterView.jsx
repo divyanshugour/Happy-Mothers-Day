@@ -146,11 +146,6 @@ export default function PosterView() {
           </div>
         </div>
       </div>
-      
-      {/* Small footer */}
-      <div style={{ textAlign: 'center', marginTop: 'auto', paddingTop: '2rem', color: 'var(--color-text-muted)', fontSize: '0.9rem' }}>
-        Made with ❤️ for {poster.motherName}
-      </div>
     </div>
   );
 }
