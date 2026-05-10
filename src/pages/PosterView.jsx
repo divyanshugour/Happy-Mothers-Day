@@ -76,20 +76,22 @@ export default function PosterView() {
   return (
     <div className="poster-container animate-fade-in">
       
-      {/* Dynamic Floating Particles */}
-      {Array.from({ length: 20 }).map((_, i) => (
-        <Heart 
-          key={i}
-          className="particle"
-          size={Math.random() * 20 + 10}
-          fill={Math.random() > 0.5 ? "var(--color-primary-light)" : "transparent"}
-          style={{
-            left: `${Math.random() * 100}vw`,
-            animationDuration: `${Math.random() * 10 + 10}s`,
-            animationDelay: `${Math.random() * 5}s`,
-          }}
-        />
-      ))}
+      {/* Dynamic Full-screen Background Particles */}
+      <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 0 }}>
+        {Array.from({ length: 15 }).map((_, i) => (
+          <Heart 
+            key={`bg-heart-${i}`}
+            className="particle"
+            size={Math.random() * 30 + 10}
+            fill={Math.random() > 0.5 ? "var(--color-primary-light)" : "transparent"}
+            style={{
+              left: `${Math.random() * 100}vw`,
+              animationDuration: `${Math.random() * 15 + 10}s`,
+              animationDelay: `${Math.random() * 5}s`,
+            }}
+          />
+        ))}
+      </div>
 
       <PosterCard poster={poster} />
     </div>

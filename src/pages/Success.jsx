@@ -54,7 +54,24 @@ export default function Success() {
   };
 
   return (
-    <div className="container flex-center animate-fade-in" style={{ minHeight: '100vh', padding: '2rem 1rem' }}>
+    <div className="container flex-center animate-fade-in" style={{ minHeight: '100vh', padding: '2rem 1rem', position: 'relative', overflow: 'hidden' }}>
+      
+      {/* Background Particles for Magic Feel */}
+      <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 0 }}>
+        {Array.from({ length: 12 }).map((_, i) => (
+          <Heart 
+            key={i}
+            className="particle"
+            size={Math.random() * 20 + 10}
+            fill={Math.random() > 0.5 ? "var(--color-primary-light)" : "transparent"}
+            style={{
+              left: `${Math.random() * 100}vw`,
+              animationDuration: `${Math.random() * 12 + 8}s`,
+              animationDelay: `${Math.random() * 5}s`,
+            }}
+          />
+        ))}
+      </div>
       
       {/* Hidden Poster Container for html2canvas Capture */}
       {poster && (

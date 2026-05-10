@@ -11,6 +11,47 @@ export default function PosterCard({ poster, id }) {
       <div className="magical-orb orb-2" />
       <div className="magical-orb orb-3" />
 
+      {/* Floating Particles */}
+      <div className="particles-container">
+        {Array.from({ length: 15 }).map((_, i) => (
+          <div 
+            key={`heart-${i}`}
+            className="floating-particle"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 10}s`,
+              animationDuration: `${10 + Math.random() * 10}s`,
+            }}
+          >
+            <Heart 
+              size={Math.random() * 15 + 10} 
+              fill={Math.random() > 0.5 ? "var(--color-primary-light)" : "none"}
+              color="var(--color-primary-light)"
+              style={{ opacity: 0.4 }}
+            />
+          </div>
+        ))}
+        {Array.from({ length: 10 }).map((_, i) => (
+          <div 
+            key={`sparkle-${i}`}
+            className="floating-particle"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 10}s`,
+              animationDuration: `${5 + Math.random() * 5}s`,
+            }}
+          >
+            <Sparkles 
+              size={Math.random() * 10 + 5} 
+              color="#dfb15b"
+              style={{ opacity: 0.5 }}
+            />
+          </div>
+        ))}
+      </div>
+
       <div style={{ position: 'relative', zIndex: 1, textAlign: 'center', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
         
         {/* Header */}
