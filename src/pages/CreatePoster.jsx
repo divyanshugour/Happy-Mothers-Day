@@ -110,20 +110,20 @@ export default function CreatePoster() {
         <form onSubmit={handleSubmit}>
           
           <div className="input-group">
-            <label htmlFor="motherName">Mother's Name</label>
+            <label htmlFor="motherName">What you call your mom, Maa, Mummy, Mumma</label>
             <input 
               type="text" 
               id="motherName" 
               name="motherName" 
               className="input-field" 
-              placeholder="e.g. Mom, Mommy, Jane" 
+              placeholder="e.g. Maa, Mummy, Mumma, Jane" 
               value={formData.motherName}
               onChange={handleInputChange}
             />
           </div>
 
           <div className="input-group">
-            <label htmlFor="photo">Upload a Photo</label>
+            <label htmlFor="photo">Upload a photo of you and your maa</label>
             <div 
               style={{
                 border: '2px dashed var(--color-primary-light)',
@@ -159,7 +159,7 @@ export default function CreatePoster() {
           </div>
 
           <div className="input-group">
-            <label htmlFor="message">Your Message</label>
+            <label htmlFor="message">A loving message for your mother</label>
             <textarea 
               id="message" 
               name="message" 
@@ -171,7 +171,7 @@ export default function CreatePoster() {
           </div>
 
           <div className="input-group">
-            <label htmlFor="senderName">Your Name</label>
+            <label htmlFor="senderName">What your maa calls you</label>
             <input 
               type="text" 
               id="senderName" 
@@ -193,7 +193,7 @@ export default function CreatePoster() {
             {isSubmitting ? (
               <><Loader2 className="animate-spin" size={20} /> Creating Magic...</>
             ) : (
-              <><ImageIcon size={20} /> Create Beautiful Poster</>
+              <><ImageIcon size={20} /> Create Poster</>
             )}
           </button>
         </form>
